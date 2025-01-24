@@ -38,9 +38,6 @@ jobs:
       - name: Build and run Unit/Integration Tests with Maven
         run: mvn -ntp -B verify
       - name: Log in to Docker Hub
-        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-
-      - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_USERNAME }}" | docker login -u "${{ secrets.DOCKER_PASSWORD }}" --password-stdin
       - name: Build and Push Docker Image
         run: mvn clean compile jib:build
