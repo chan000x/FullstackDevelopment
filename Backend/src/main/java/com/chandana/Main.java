@@ -13,12 +13,14 @@ import com.chandana.customer.CustomerRepository;
 import com.github.javafaker.Faker;
 
 
+
 @SpringBootApplication(scanBasePackages = "com.chandana.customer")
 public class Main {  
    
     public static void main(String[] args){
-            pringApplication.run(Main.class, args);
+            SpringApplication.run(Main.class, args);
  
+
     } 
 
     @Bean

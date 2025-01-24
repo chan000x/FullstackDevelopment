@@ -36,4 +36,6 @@ To stop docker compose : docker compose stop
 
 To start docker compose : docker compose start 
 
+To remove already set docker component : docker volume rm volume_name
 
+To find the all the volumes created : docker volume ls
