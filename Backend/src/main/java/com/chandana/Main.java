@@ -17,7 +17,7 @@ import com.github.javafaker.Faker;
 public class Main {  
    
     public static void main(String[] args){
-            pringApplication.run(Main.class, args);
+            SpringApplication.run(Main.class, args);
  
     } 
 
