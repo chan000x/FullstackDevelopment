@@ -12,6 +12,7 @@ import com.chandana.customer.Customer;
 import com.chandana.customer.CustomerRepository;
 import com.github.javafaker.Faker;
 
+
 @SpringBootApplication(scanBasePackages = "com.chandana.customer")
 public class Main {  
    
