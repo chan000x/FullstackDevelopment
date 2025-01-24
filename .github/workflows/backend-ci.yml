@@ -5,7 +5,7 @@ on:
     branches:
       - master
     paths:
-      - backend/**
+      - Backend/**
 
 jobs:
   build:
@@ -27,7 +27,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./backend
+        working-directory: ./Backend
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3
