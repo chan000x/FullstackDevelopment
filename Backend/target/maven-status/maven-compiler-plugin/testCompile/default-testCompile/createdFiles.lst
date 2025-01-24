@@ -1,0 +1,15 @@
+com\chandana\customer\CustomerRowMapperTest.class
+com\chandana\journey\CustomerIntegrationTest$3.class
+com\chandana\customer\CustomerRepositoryTest.class
+com\chandana\springTest\TestcontainersConfiguration.class
+com\chandana\journey\CustomerIntegrationTest$2.class
+com\chandana\AbstractTestcontainers.class
+com\chandana\journey\CustomerIntegrationTest$4.class
+com\chandana\customer\CustomerJDBCDataAccessServiceTest.class
+com\chandana\springTest\SpringTestApplicationTests.class
+com\chandana\customer\CustomerServiceTest.class
+com\chandana\TestcontainersTest.class
+com\chandana\springTest\TestSpringTestApplication.class
+com\chandana\journey\CustomerIntegrationTest$1.class
+com\chandana\journey\CustomerIntegrationTest.class
+com\chandana\customer\CustomerJPADataAccessServiceTest.class
