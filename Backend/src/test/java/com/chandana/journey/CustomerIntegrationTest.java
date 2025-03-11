@@ -8,6 +8,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.chandana.customer.Customer;
 import com.chandana.customer.CustomerEditRequest;
 import com.chandana.customer.CustomerRegistrationRequest;
+import com.chandana.customer.Gender;
 import com.github.javafaker.Faker;
 import com.github.javafaker.Name;
 
@@ -39,9 +40,9 @@ public class CustomerIntegrationTest {
         String name = faker.name().fullName();
         String email = faker.internet().emailAddress();
         int age = random.nextInt(1, 100);
-
+        Gender gender = Gender.FEMALE;
         CustomerRegistrationRequest request = new CustomerRegistrationRequest(
-            name, email, age
+            name, email, age,gender.name()
         );
 
         // Send a POST request to register a customer
@@ -66,7 +67,7 @@ public class CustomerIntegrationTest {
             .getResponseBody();
 
         // Validate that the newly registered customer is present
-        Customer expectedCustomer = new Customer(name, email, age); 
+        Customer expectedCustomer = new Customer(name, email, age,gender); 
 
 
         assertThat(allCustomers)
@@ -99,9 +100,9 @@ public class CustomerIntegrationTest {
         String name = faker.name().fullName();
         String email = faker.internet().emailAddress();
         int age = random.nextInt(1, 100);
-
+        Gender gender = Gender.FEMALE;
         CustomerRegistrationRequest request = new CustomerRegistrationRequest(
-            name, email, age
+            name, email, age, gender.name()
         );
 
         // Send a POST request to register a customer
@@ -159,9 +160,9 @@ public class CustomerIntegrationTest {
         String name = faker.name().fullName();
         String email = faker.internet().emailAddress();
         int age = random.nextInt(1, 100);
-    
+        Gender gender = Gender.MALE;
         CustomerRegistrationRequest request = new CustomerRegistrationRequest(
-            name, email, age
+            name, email, age, gender.name()
         );
     
         // Send a POST request to register a customer
@@ -197,7 +198,7 @@ public class CustomerIntegrationTest {
 
         // Create an update request
         CustomerEditRequest updateRequest = new CustomerEditRequest(
-            "Updated Name", uniqueEmail, random.nextInt(1, 100)
+            "Updated Name", uniqueEmail, random.nextInt(1, 100),Gender.FEMALE.name()
         );
     
         // Send a PUT request to update the customer
@@ -211,7 +212,7 @@ public class CustomerIntegrationTest {
             .isOk();
     
         // Validate that the customer was updated
-        Customer expectedCustomer = new Customer(id, updateRequest.name(), updateRequest.email(), updateRequest.age());
+        Customer expectedCustomer = new Customer(id, updateRequest.name(), updateRequest.email(), updateRequest.age(),Gender.valueOf(updateRequest.gender()));
     
         Customer updatedCustomer = webTestClient.get()
             .uri(CUSTOMER_URI + "/{id}", id)

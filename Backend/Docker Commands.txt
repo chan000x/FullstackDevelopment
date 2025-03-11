@@ -39,3 +39,34 @@ To start docker compose : docker compose start
 To remove already set docker component : docker volume rm volume_name
 
 To find the all the volumes created : docker volume ls
+
+Stop the container : docker stop postgres
+
+Remove the container: docker rm postgres
+
+Force remove : docker rm -f postgres
+
+Rebuild : docker compose up --build
+
+
+to build docker image in react : docker build . -t chan000x/chandana-react
+to push docker image which in locally : docker push chan000x/chandana-react
+to run docker image : docker run --rm --name frontend-react -p 3000:5173 chan000x/chandana-react
+   we can access using port 3000 and it interact with api in port 5173 inside of the container.
+to run docker image in background (detached mode) : docker run -d --name frontend-react -p 3000:5173 chan000x/chandana-react
+
+to look inside react container image we created : docker exec -it react-frontend sh 
+
+to stop a image running on docker : docker rm -f image-name 
+
+
+
+
+
+
+
+
+
+
+
+

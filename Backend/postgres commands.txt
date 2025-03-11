@@ -66,5 +66,7 @@ If the table does not exist you can avoid errors : DROP TABLE IF EXISTS customer
 
 To drop table with constrains : DROP TABLE customers CASCADE;
 
+To change the customer_id_seq (primary key value) :    ALTER SEQUENCE customer_id_seq RESTART WITH 1;
+
 
 

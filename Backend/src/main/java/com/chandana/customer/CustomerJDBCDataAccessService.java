@@ -23,7 +23,7 @@ public class CustomerJDBCDataAccessService implements CustomerDao{
     @Override
     public List<Customer> selectAllCustomers() {
         var sql = """
-               SELECT id,name,email,age
+               SELECT id,name,email,age,gender
                 FROM customer;
                """;
 
@@ -65,15 +65,16 @@ public Optional<Customer> selectCustomerById(Integer id) {
     @Override
     public void insertCustomer(Customer customer) {
        var sql = """
-               INSERT INTO customer(name,email,age)
-               VALUES(?,?,?) 
+               INSERT INTO customer(name,email,age,gender)
+               VALUES(?,?,?,?) 
                """;  
          // question mark is used because values are retriving from the customer object on each execution. This is the prepared statement.
         int result = jdbcTemplate.update(
             sql,customer.getName(), 
             customer.getEmail(),
-            customer.getAge());
-        
+            customer.getAge(),
+            customer.getGender().name()
+        );
             System.out.println("jdbcTemplate.update : "+ result);
     }
 
@@ -149,6 +150,15 @@ public Optional<Customer> selectCustomerById(Integer id) {
                 update.getId()
             );
             System.out.println("update customer email result = "+result);
+        }
+        if(update.getGender() != null){
+            String sql = "UPDATE customer SET gender = ? WHERE id = ?";
+            int result = jdbcTemplate.update(
+                sql,
+                update.getGender().name(),
+                update.getId()
+            );
+            System.out.println("update customer gender result = "+result);
         }
     }
 

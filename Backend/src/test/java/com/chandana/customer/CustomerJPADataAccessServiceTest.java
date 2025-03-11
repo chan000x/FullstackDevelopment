@@ -2,6 +2,7 @@ package com.chandana.customer;
 
 import static org.mockito.Mockito.verify;
 
+import java.util.Random;
 import java.util.UUID;
 
 import org.junit.jupiter.api.AfterEach;
@@ -74,10 +75,24 @@ public class CustomerJPADataAccessServiceTest {
     @Test
     void testInsertCustomer() {
 
+        Faker faker = new Faker();
+        var name = faker.name();
+        String firstName = name.firstName();
+        String lastName = name.lastName();
+        String title = name.title();
+        Random random = new Random();
+        String fullName = firstName + " " +lastName;
+        String email = faker.internet().safeEmailAddress() + "-" + UUID.randomUUID();
+
+    
+        // Randomly assign gender
+        Gender gender = random.nextBoolean() ? Gender.MALE : Gender.FEMALE;
+
         Customer customer = new Customer(
-            "chanadana",
-            "chandna@gmail.com",
-            24
+            fullName,
+            email,
+            random.nextInt(18,100),
+            gender
         );
 
         underTest.insertCustomer(customer);
@@ -114,11 +129,24 @@ public class CustomerJPADataAccessServiceTest {
     @Test
     void testUpdateCustomer() {
 
-        String email = faker.internet().safeEmailAddress() +"-"+ UUID.randomUUID();
+        Faker faker = new Faker();
+        var name = faker.name();
+        String firstName = name.firstName();
+        String lastName = name.lastName();
+        String title = name.title();
+        Random random = new Random();
+        String fullName = firstName + " " +lastName;
+        String email = faker.internet().safeEmailAddress() + "-" + UUID.randomUUID();
+
+    
+        // Randomly assign gender
+        Gender gender = random.nextBoolean() ? Gender.MALE : Gender.FEMALE;
+
         Customer customer = new Customer(
-            faker.name().fullName(),
+            fullName,
             email,
-            20
+            random.nextInt(18,100),
+            gender
         );
 
         underTest.updateCustomer(customer);

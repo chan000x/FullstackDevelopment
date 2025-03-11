@@ -4,6 +4,8 @@ import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -53,23 +55,31 @@ public  class Customer{
     )
     private Integer age;
 
+    @Column(
+        nullable = false  // this will add constrains to the when connecting to the database postgres.
+    )
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+
     
     public Customer() {
     }
 
     
-    public Customer(String name, String email, Integer age) {
+    public Customer(String name, String email, Integer age,Gender gender) {
         this.name = name;
         this.email = email;
         this.age = age;
+        this.gender = gender;
     }
 
 
-    public Customer(Integer id, String name, String email, Integer age) {
+    public Customer(Integer id, String name, String email, Integer age,Gender gender) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.age = age;
+        this.gender = gender;
     }
     public void setId(Integer id) {
         this.id = id;
@@ -83,6 +93,9 @@ public  class Customer{
     public void setAge(Integer age) {
         this.age = age;
     }
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
     public Integer getId() {
         return id;
     }
@@ -92,12 +105,15 @@ public  class Customer{
     public String getEmail() {
         return email;
     }
+    public Gender getGender() {
+        return gender;
+    }
     public Integer getAge() {
         return age;
     }
     @Override
     public String toString() {
-        return "Customer [id=" + id + ", name=" + name + ", email=" + email + ", age=" + age + "]";
+        return "Customer [id=" + id + ", name=" + name + ", email=" + email + ", age=" + age + ",gender="+ gender +"]";
     }
     @Override
     public int hashCode() {
@@ -107,6 +123,7 @@ public  class Customer{
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + ((email == null) ? 0 : email.hashCode());
         result = prime * result + ((age == null) ? 0 : age.hashCode());
+        result = prime * result + ((gender == null) ? 0 : gender.hashCode());
         return result;
     }
     
@@ -120,6 +137,7 @@ public boolean equals(Object obj) {
     return Objects.equals(id, other.id) &&
            Objects.equals(name, other.name) &&
            Objects.equals(email, other.email) &&
+           Objects.equals(gender, other.gender) &&
            Objects.equals(age, other.age);
 }
 

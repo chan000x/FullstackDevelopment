@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
 
 import com.chandana.AbstractTestcontainers;
+import com.github.javafaker.Faker;
 
 //@DataJdbcTest // Auto load the all the beans that neede to run our test case of JDBC Template.
 // But we do not need this. We can load neccessary beans by our selves.
@@ -34,13 +36,27 @@ public class CustomerJDBCDataAccessServiceTest extends AbstractTestcontainers{
     @Test
     void testSelectAllCustomers() {
 
+
+        Faker faker = new Faker();
+        var name = faker.name();
+        String firstName = name.firstName();
+        String lastName = name.lastName();
+        String title = name.title();
+        Random random = new Random();
+        String fullName = firstName + " " +lastName;
         String email = faker.internet().safeEmailAddress() + "-" + UUID.randomUUID();
-        // Arrange: Create a customer instance
+
+    
+        // Randomly assign gender
+        Gender gender = random.nextBoolean() ? Gender.MALE : Gender.FEMALE;
         Customer customer = new Customer(
-            faker.name().fullName(),
+            fullName,
             email,
-            20
+            random.nextInt(18,100),
+            gender
         );
+
+
 
         underTest.insertCustomer(customer);
 
@@ -51,11 +67,24 @@ public class CustomerJDBCDataAccessServiceTest extends AbstractTestcontainers{
 
     @Test
     void testSelectCustomerById() {
-        String email = faker.internet().safeEmailAddress() +"-"+ UUID.randomUUID();
+        Faker faker = new Faker();
+        var name = faker.name();
+        String firstName = name.firstName();
+        String lastName = name.lastName();
+        String title = name.title();
+        Random random = new Random();
+        String fullName = firstName + " " +lastName;
+        String email = faker.internet().safeEmailAddress() + "-" + UUID.randomUUID();
+
+    
+        // Randomly assign gender
+        Gender gender = random.nextBoolean() ? Gender.MALE : Gender.FEMALE;
+
         Customer customer = new Customer(
-            faker.name().fullName(),
+            fullName,
             email,
-            20
+            random.nextInt(18,100),
+            gender
         );
 
         underTest.insertCustomer(customer);
@@ -73,6 +102,7 @@ public class CustomerJDBCDataAccessServiceTest extends AbstractTestcontainers{
             assertThat(c.getName()).isEqualTo(customer.getName());
             assertThat(c.getEmail()).isEqualTo(customer.getEmail());
             assertThat(c.getAge()).isEqualTo(customer.getAge());
+            assertThat(c.getGender()).isEqualTo(customer.getGender());
 
         });
     }
@@ -89,12 +119,24 @@ public class CustomerJDBCDataAccessServiceTest extends AbstractTestcontainers{
 
     @Test
     void testDeleteCustomerById() {
-        // Given
+        Faker faker = new Faker();
+        var name = faker.name();
+        String firstName = name.firstName();
+        String lastName = name.lastName();
+        String title = name.title();
+        Random random = new Random();
+        String fullName = firstName + " " +lastName;
         String email = faker.internet().safeEmailAddress() + "-" + UUID.randomUUID();
+
+    
+        // Randomly assign gender
+        Gender gender = random.nextBoolean() ? Gender.MALE : Gender.FEMALE;
+
         Customer customer = new Customer(
-            faker.name().fullName(),
+            fullName,
             email,
-            20
+            random.nextInt(18,100),
+            gender
         );
     
         underTest.insertCustomer(customer);
@@ -119,13 +161,24 @@ public class CustomerJDBCDataAccessServiceTest extends AbstractTestcontainers{
 
     @Test
     void testExistsPersonWithEmail() {
+        Faker faker = new Faker();
+        var name = faker.name();
+        String firstName = name.firstName();
+        String lastName = name.lastName();
+        String title = name.title();
+        Random random = new Random();
+        String fullName = firstName + " " +lastName;
         String email = faker.internet().safeEmailAddress() + "-" + UUID.randomUUID();
-        // Create a customer instance
-        String name = faker.name().fullName();
+
+    
+        // Randomly assign gender
+        Gender gender = random.nextBoolean() ? Gender.MALE : Gender.FEMALE;
+
         Customer customer = new Customer(
-            name,
+            fullName,
             email,
-            20
+            random.nextInt(18,100),
+            gender
         );
     
         // Save the customer to the database
@@ -157,13 +210,24 @@ public class CustomerJDBCDataAccessServiceTest extends AbstractTestcontainers{
 
     @Test
     void testExistsPersonWithId() {
+        Faker faker = new Faker();
+        var name = faker.name();
+        String firstName = name.firstName();
+        String lastName = name.lastName();
+        String title = name.title();
+        Random random = new Random();
+        String fullName = firstName + " " +lastName;
         String email = faker.internet().safeEmailAddress() + "-" + UUID.randomUUID();
-        // Create a customer instance
-        String name = faker.name().fullName();
+
+    
+        // Randomly assign gender
+        Gender gender = random.nextBoolean() ? Gender.MALE : Gender.FEMALE;
+
         Customer customer = new Customer(
-            name,
+            fullName,
             email,
-            20
+            random.nextInt(18,100),
+            gender
         );
     
         // Save the customer to the database
@@ -198,13 +262,24 @@ public class CustomerJDBCDataAccessServiceTest extends AbstractTestcontainers{
 
     @Test
     void testInsertCustomer() {
+        Faker faker = new Faker();
+        var name = faker.name();
+        String firstName = name.firstName();
+        String lastName = name.lastName();
+        String title = name.title();
+        Random random = new Random();
+        String fullName = firstName + " " +lastName;
         String email = faker.internet().safeEmailAddress() + "-" + UUID.randomUUID();
-        // Create a customer instance
-        String name = faker.name().fullName();
+
+    
+            // Randomly assign gender
+            Gender gender = random.nextBoolean() ? Gender.MALE : Gender.FEMALE;
+    
         Customer customer = new Customer(
-            name,
+            fullName,
             email,
-            20
+            random.nextInt(18,100),
+            gender
         );
     
         // Save the customer to the database
@@ -228,14 +303,24 @@ public class CustomerJDBCDataAccessServiceTest extends AbstractTestcontainers{
 
     @Test
     void testUpdateCustomerName() {
-        // Given
+        Faker faker = new Faker();
+        var name = faker.name();
+        String firstName = name.firstName();
+        String lastName = name.lastName();
+        String title = name.title();
+        Random random = new Random();
+        String fullName = firstName + " " +lastName;
         String email = faker.internet().safeEmailAddress() + "-" + UUID.randomUUID();
-        // Create a customer instance
-        String name = faker.name().fullName();
+
+    
+        // Randomly assign gender
+        Gender gender = random.nextBoolean() ? Gender.MALE : Gender.FEMALE;
+
         Customer customer = new Customer(
-            name,
+            fullName,
             email,
-            20
+            random.nextInt(18,100),
+            gender
         );
     
         // Save the customer to the database
@@ -264,20 +349,31 @@ public class CustomerJDBCDataAccessServiceTest extends AbstractTestcontainers{
             assertThat(c.getName()).isEqualTo(newName);
             assertThat(c.getEmail()).isEqualTo(customer.getEmail());
             assertThat(c.getAge()).isEqualTo(customer.getAge());
+            assertThat(c.getGender()).isEqualTo(customer.getGender());
 
         });
 
     }
     @Test
     void testUpdateCustomerEmail() {
-        // Given
+        Faker faker = new Faker();
+        var name = faker.name();
+        String firstName = name.firstName();
+        String lastName = name.lastName();
+        String title = name.title();
+        Random random = new Random();
+        String fullName = firstName + " " +lastName;
         String email = faker.internet().safeEmailAddress() + "-" + UUID.randomUUID();
-        // Create a customer instance
-        String name = faker.name().fullName();
+
+    
+        // Randomly assign gender
+        Gender gender = random.nextBoolean() ? Gender.MALE : Gender.FEMALE;
+
         Customer customer = new Customer(
-            name,
+            fullName,
             email,
-            20
+            random.nextInt(18,100),
+            gender
         );
     
         // Save the customer to the database
@@ -307,22 +403,85 @@ public class CustomerJDBCDataAccessServiceTest extends AbstractTestcontainers{
             assertThat(c.getName()).isEqualTo(customer.getName());
             assertThat(c.getEmail()).isEqualTo(newEmail);
             assertThat(c.getAge()).isEqualTo(customer.getAge());
+            assertThat(c.getGender()).isEqualTo(customer.getGender());
+
+        });
+    }
+    @Test
+    void testUpdateCustomerGender() {
+        Faker faker = new Faker();
+        var name = faker.name();
+        String firstName = name.firstName();
+        String lastName = name.lastName();
+        String title = name.title();
+        Random random = new Random();
+        String fullName = firstName + " " +lastName;
+        String email = faker.internet().safeEmailAddress() + "-" + UUID.randomUUID();
+
+    
+        // Randomly assign gender
+        Gender gender = random.nextBoolean() ? Gender.MALE : Gender.FEMALE;
+
+        Customer customer = new Customer(
+            fullName,
+            email,
+            random.nextInt(18,100),
+            gender
+        );
+    
+        // Save the customer to the database
+        underTest.insertCustomer(customer);
+
+        Integer id = underTest.selectAllCustomers()
+                .stream()
+                .filter(c -> c.getEmail().equals(email))
+                .map(c -> c.getId())
+                .findFirst()
+                .orElseThrow();
+
+        var newGender = Gender.FEMALE;
+
+        // When email is changed
+        Customer update = new Customer();
+        update.setId(id);
+        update.setGender(newGender);
+
+        underTest.updateCustomer(update);
+
+        // Then
+        Optional<Customer> actual = underTest.selectCustomerById(id);
+
+        assertThat(actual).isPresent().hasValueSatisfying(c -> {
+            assertThat(c.getId()).isEqualTo(id);
+            assertThat(c.getName()).isEqualTo(customer.getName());
+            assertThat(c.getEmail()).isEqualTo(customer.getEmail());
+            assertThat(c.getAge()).isEqualTo(customer.getAge());
+            assertThat(c.getGender()).isEqualTo(newGender);
 
         });
 
     }
     @Test
     void testUpdateCustomerAge() {
-        // Given
+        Faker faker = new Faker();
+        var name = faker.name();
+        String firstName = name.firstName();
+        String lastName = name.lastName();
+        String title = name.title();
+        Random random = new Random();
+        String fullName = firstName + " " +lastName;
         String email = faker.internet().safeEmailAddress() + "-" + UUID.randomUUID();
-        // Create a customer instance
-        String name = faker.name().fullName();
-        Customer customer = new Customer(
-            name,
-            email,
-            20
-        );
+
     
+        // Randomly assign gender
+        Gender gender = random.nextBoolean() ? Gender.MALE : Gender.FEMALE;
+
+        Customer customer = new Customer(
+            fullName,
+            email,
+            random.nextInt(18,100),
+            gender
+        );
         // Save the customer to the database
         underTest.insertCustomer(customer);
 
@@ -349,6 +508,7 @@ public class CustomerJDBCDataAccessServiceTest extends AbstractTestcontainers{
             assertThat(c.getName()).isEqualTo(customer.getName());
             assertThat(c.getEmail()).isEqualTo(customer.getEmail());
             assertThat(c.getAge()).isEqualTo(age);
+            assertThat(c.getGender()).isEqualTo(customer.getGender());
 
         });
 
@@ -356,14 +516,24 @@ public class CustomerJDBCDataAccessServiceTest extends AbstractTestcontainers{
 
     @Test
     void testUpdateCustomerAllProperties() {
-        // Given
+        Faker faker = new Faker();
+        var name = faker.name();
+        String firstName = name.firstName();
+        String lastName = name.lastName();
+        String title = name.title();
+        Random random = new Random();
+        String fullName = firstName + " " +lastName;
         String email = faker.internet().safeEmailAddress() + "-" + UUID.randomUUID();
-        // Create a customer instance
-        String name = faker.name().fullName();
+
+    
+        // Randomly assign gender
+        Gender gender = random.nextBoolean() ? Gender.MALE : Gender.FEMALE;
+
         Customer customer = new Customer(
-            name,
+            fullName,
             email,
-            20
+            random.nextInt(18,100),
+            gender
         );
     
         // Save the customer to the database
@@ -379,12 +549,14 @@ public class CustomerJDBCDataAccessServiceTest extends AbstractTestcontainers{
         var newAge = 45;
         var newName = "foo";
         var newEmail = faker.internet().safeEmailAddress() + "-" + UUID.randomUUID();
+        var newGender = Gender.FEMALE;
         // When age is name
         Customer update = new Customer();
         update.setId(id);
         update.setAge(newAge);
         update.setEmail(newEmail);
         update.setName(newName);
+        update.setGender(newGender);
 
         underTest.updateCustomer(update);
 
@@ -396,6 +568,7 @@ public class CustomerJDBCDataAccessServiceTest extends AbstractTestcontainers{
             assertThat(c.getName()).isEqualTo(newName);
             assertThat(c.getEmail()).isEqualTo(newEmail);
             assertThat(c.getAge()).isEqualTo(newAge);
+            assertThat(c.getGender()).isEqualTo(newGender);
 
         });
 
@@ -403,15 +576,25 @@ public class CustomerJDBCDataAccessServiceTest extends AbstractTestcontainers{
 
     @Test
     void testNoUpdateCustomerWhenNotNothinUpdate() {
-        // Given
+        Faker faker = new Faker();
+        var name = faker.name();
+        String firstName = name.firstName();
+        String lastName = name.lastName();
+        String title = name.title();
+        Random random = new Random();
+        String fullName = firstName + " " +lastName;
         String email = faker.internet().safeEmailAddress() + "-" + UUID.randomUUID();
-        // Create a customer instance
-        String name = faker.name().fullName();
-        Customer customer = new Customer(
-            name,
-            email,
-            20
-        );
+
+    
+        // Randomly assign gender
+        Gender gender = random.nextBoolean() ? Gender.MALE : Gender.FEMALE;
+
+         Customer customer = new Customer(
+             fullName,
+             email,
+             random.nextInt(18,100),
+             gender
+         );
     
         // Save the customer to the database
         underTest.insertCustomer(customer);
@@ -437,6 +620,7 @@ public class CustomerJDBCDataAccessServiceTest extends AbstractTestcontainers{
             assertThat(c.getName()).isEqualTo(customer.getName());
             assertThat(c.getEmail()).isEqualTo(customer.getEmail());
             assertThat(c.getAge()).isEqualTo(customer.getAge());
+            assertThat(c.getGender()).isEqualTo(customer.getGender());
 
         });
 

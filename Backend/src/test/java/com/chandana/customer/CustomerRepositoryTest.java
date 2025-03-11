@@ -3,6 +3,7 @@ package com.chandana.customer;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Optional;
+import java.util.Random;
 import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.ApplicationContext;
 
 import com.chandana.AbstractTestcontainers;
+import com.github.javafaker.Faker;
 
 @DataJpaTest // This annotation is loading anything that needed to run our DataJpa. 
             //It means like Application Context loaded from @SpringBootTest annotation 
@@ -41,11 +43,24 @@ public class CustomerRepositoryTest extends AbstractTestcontainers{
 
     @Test
     void testExistsCustomerByEmail() {
-        String email = faker.internet().safeEmailAddress() +"-"+ UUID.randomUUID();
+        Faker faker = new Faker();
+        var name = faker.name();
+        String firstName = name.firstName();
+        String lastName = name.lastName();
+        String title = name.title();
+        Random random = new Random();
+        String fullName = firstName + " " +lastName;
+        String email = faker.internet().safeEmailAddress() + "-" + UUID.randomUUID();
+
+    
+        // Randomly assign gender
+        Gender gender = random.nextBoolean() ? Gender.MALE : Gender.FEMALE;
+
         Customer customer = new Customer(
-            faker.name().fullName(),
+            fullName,
             email,
-            20
+            random.nextInt(18,100),
+            gender
         );
 
         underTest.save(customer);
@@ -65,11 +80,24 @@ public class CustomerRepositoryTest extends AbstractTestcontainers{
 
     @Test
     void testExistsCustomerById() {
-        String email = faker.internet().safeEmailAddress() +"-"+ UUID.randomUUID();
+        Faker faker = new Faker();
+        var name = faker.name();
+        String firstName = name.firstName();
+        String lastName = name.lastName();
+        String title = name.title();
+        Random random = new Random();
+        String fullName = firstName + " " +lastName;
+        String email = faker.internet().safeEmailAddress() + "-" + UUID.randomUUID();
+
+    
+        // Randomly assign gender
+        Gender gender = random.nextBoolean() ? Gender.MALE : Gender.FEMALE;
+
         Customer customer = new Customer(
-            faker.name().fullName(),
+            fullName,
             email,
-            20
+            random.nextInt(18,100),
+            gender
         );
 
         underTest.save(customer);

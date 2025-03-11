@@ -55,7 +55,7 @@ public class CustomerServiceTest {
         // Given
         int id = 1;
         Customer customer = new Customer(
-            id,"Alex","Alex@gmail.com",21
+            id,"Alex","Alex@gmail.com",21,Gender.MALE
         );
         // When customerDao which is mock invoke method on it it does not know how to reply.so we have to tell exactly what to do.in below it return customer object.
         when(customerDao.selectCustomerById(id)).thenReturn(Optional.of(customer));
@@ -87,7 +87,7 @@ public class CustomerServiceTest {
 
         when(customerDao.existsPersonWithEmail(email)).thenReturn(false);
 
-        CustomerRegistrationRequest request = new CustomerRegistrationRequest("foo", email, 21);
+        CustomerRegistrationRequest request = new CustomerRegistrationRequest("foo", email, 21,Gender.FEMALE.name());
         
         underTest.addCustomer(request);
 
@@ -103,6 +103,7 @@ public class CustomerServiceTest {
         assertThat(capturedCustomer.getName()).isEqualTo(request.name());
         assertThat(capturedCustomer.getEmail()).isEqualTo(request.email());
         assertThat(capturedCustomer.getAge()).isEqualTo(request.age());
+        assertThat(capturedCustomer.getGender().name()).isEqualTo(request.gender());
     }
 
     @Test
@@ -112,7 +113,7 @@ public class CustomerServiceTest {
 
         when(customerDao.existsPersonWithEmail(email)).thenReturn(true);
         
-        CustomerRegistrationRequest request = new CustomerRegistrationRequest("foo", email, 21);
+        CustomerRegistrationRequest request = new CustomerRegistrationRequest("foo", email, 21,Gender.MALE.name());
         
         assertThatThrownBy(() -> underTest.addCustomer(request))
                 .isInstanceOf(DuplicateResourceException.class)
@@ -152,9 +153,9 @@ public class CustomerServiceTest {
         // Given
         int id = 1;
         Customer existingCustomer = new Customer(
-            id, "Alex", "Alex@gmail.com", 21
+            id, "Alex", "Alex@gmail.com", 21,Gender.MALE
         );
-        CustomerEditRequest request = new CustomerEditRequest("foo", "foo@gmail.com", 22);
+        CustomerEditRequest request = new CustomerEditRequest("foo", "foo@gmail.com", 22,Gender.FEMALE.name());
     
         when(customerDao.selectCustomerById(id)).thenReturn(Optional.of(existingCustomer));
         when(customerDao.existsPersonWithEmail(request.email())).thenReturn(false);
@@ -172,15 +173,16 @@ public class CustomerServiceTest {
         assertThat(capturedCustomer.getName()).isEqualTo(request.name());
         assertThat(capturedCustomer.getEmail()).isEqualTo(request.email());
         assertThat(capturedCustomer.getAge()).isEqualTo(request.age());
+        assertThat(capturedCustomer.getGender()).isEqualTo(Gender.valueOf(request.gender()));
     }
     @Test
     void testEditCustomerNameProperties() {
         // Given
         int id = 1;
         Customer existingCustomer = new Customer(
-            id, "Alex", "Alex@gmail.com", 21
+            id, "Alex", "Alex@gmail.com", 21,Gender.MALE
         );
-        CustomerEditRequest request = new CustomerEditRequest("foo",null,null);
+        CustomerEditRequest request = new CustomerEditRequest("foo",null,null,null);
     
         when(customerDao.selectCustomerById(id)).thenReturn(Optional.of(existingCustomer));
         //when(customerDao.existsPersonWithEmail(request.email())).thenReturn(false);
@@ -202,9 +204,9 @@ public class CustomerServiceTest {
         // Given
         int id = 1;
         Customer existingCustomer = new Customer(
-            id, "Alex", "Alex@gmail.com", 21
+            id, "Alex", "Alex@gmail.com", 21,Gender.FEMALE
         );
-        CustomerEditRequest request = new CustomerEditRequest(null,"foo@gmail.com",null);
+        CustomerEditRequest request = new CustomerEditRequest(null,"foo@gmail.com",null,null);
     
         when(customerDao.selectCustomerById(id)).thenReturn(Optional.of(existingCustomer));
         when(customerDao.existsPersonWithEmail(request.email())).thenReturn(false);
@@ -226,9 +228,9 @@ public class CustomerServiceTest {
         // Given
         int id = 1;
         Customer existingCustomer = new Customer(
-            id, "Alex", "Alex@gmail.com", 21
+            id, "Alex", "Alex@gmail.com", 21,Gender.FEMALE
         );
-        CustomerEditRequest request = new CustomerEditRequest(null,null,67);
+        CustomerEditRequest request = new CustomerEditRequest(null,null,67,null);
     
         when(customerDao.selectCustomerById(id)).thenReturn(Optional.of(existingCustomer));
        // when(customerDao.existsPersonWithEmail(request.email())).thenReturn(false);
@@ -251,9 +253,9 @@ public class CustomerServiceTest {
 
         int id = 1;
         Customer customer = new Customer(
-            id, "Alex", "Alex@gmail.com", 21
+            id, "Alex", "Alex@gmail.com", 21,Gender.FEMALE
         );
-        CustomerEditRequest request = new CustomerEditRequest("foo", "foo@gmail.com", 22);
+        CustomerEditRequest request = new CustomerEditRequest("foo", "foo@gmail.com", 22,Gender.MALE.name());
     
         when(customerDao.selectCustomerById(id)).thenReturn(Optional.of(customer));
         when(customerDao.existsPersonWithEmail(request.email())).thenReturn(true);
@@ -273,9 +275,9 @@ public class CustomerServiceTest {
 
         int id = 1;
         Customer customer = new Customer(
-            id, "Alex", "Alex@gmail.com", 21
+            id, "Alex", "Alex@gmail.com", 21,Gender.FEMALE
         );
-        CustomerEditRequest request = new CustomerEditRequest(customer.getName(),customer.getEmail(), customer.getAge());
+        CustomerEditRequest request = new CustomerEditRequest(customer.getName(),customer.getEmail(), customer.getAge(),customer.getGender().name());
     
         when(customerDao.selectCustomerById(id)).thenReturn(Optional.of(customer));
 
